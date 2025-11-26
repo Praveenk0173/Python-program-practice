@@ -1,0 +1,44 @@
+program 21
+code:
+names = ["Tom", "Jennifer", "Ali", "Chris"]
+name_lengths = {name: len(name) for name in names}
+print(name_lengths)
+program 22
+code:
+import re
+text = "Call 9876543210 or 987-654-3210. Alternate: (91234 56780)"
+raw_numbers = re.findall(r'\d[\d\-\s\(\)]{8,}\d', text)
+clean_numbers = []
+for num in raw_numbers:
+    cleaned = re.sub(r'\D', '', num)
+    if len(cleaned) == 10:
+        clean_numbers.append(cleaned)
+result = {num[-4:]: num for num in clean_numbers}
+print(result)
+program 23
+code:
+import re
+log = """ [2025-10-05] User: alice Action: login 
+[2025-10-05] User: bob Action: upload 
+[2025-10-06] User: alice Action: logout """
+pattern = r"\[(.*?)\]\s*User:\s*(\w+)\s*Action:\s*(\w+)"
+entries = re.findall(pattern, log)
+result = {}
+for date, user, action in entries:
+    if user not in result:
+        result[user] = {}      
+    result[user][date] = action
+print(result)
+python 24
+code:
+import re
+text = "Alice: 89, Bob: 76, Charlie: 92, Alice: 95, Bob: 82"
+pairs = re.findall(r'(\w+):\s*(\d+)', text)
+marks_dict = {}
+for name, mark in pairs:
+    mark = int(mark)
+    if name not in marks_dict:
+        marks_dict[name] = []
+    marks_dict[name].append(mark)
+avg_dict = {name: sum(scores) / len(scores) for name, scores in marks_dict.items()}
+print(avg_dict)
