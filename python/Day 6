@@ -1,0 +1,64 @@
+program 21
+code:
+import re
+from collections import defaultdict
+log = """ [2025-10-01] Module: auth Time: 2.5s 
+[2025-10-01] Module: db Time: 1.8s 
+[2025-10-01] Module: auth Time: 3.1s 
+[2025-10-02] Module: db Time: 2.0s """
+pattern = r"\[(.*?)\]\s+Module:\s+(\w+)\s+Time:\s+([\d.]+)s"
+matches = re.findall(pattern, log)
+data = defaultdict(lambda: defaultdict(list))
+for date, module, time in matches:
+    data[date][module].append(float(time))
+result = {}
+for date, modules in data.items():
+    result[date] = {}
+    for module, times in modules.items():
+        result[date][module] = sum(times) / len(times)
+print(result)
+program 22
+code:
+import re
+from collections import defaultdict
+text = "Alice(PERSON) works at Google(ORG) in California(LOC). Bob(PERSON) joined Amazon(ORG)."
+pattern = r"([A-Za-z]+)\((PERSON|ORG|LOC)\)"
+matches = re.findall(pattern, text)
+entities = defaultdict(list)
+for name, tag in matches:
+    entities[tag].append(name)
+print(dict(entities))
+program 23
+code:
+import re
+log = """ Connected to 192.168.1.10 Request from 8.8.8.8 
+User 10.0.0.2 logged in Contacted 172.16.0.5 and 203.0.113.45 """
+pattern = r"\b(?:\d{1,3}\.){3}\d{1,3}\b"
+ips = re.findall(pattern, log)
+def is_private(ip):
+    parts = list(map(int, ip.split(".")))
+    a, b, c, d = parts
+    return (
+        a == 10 or
+        (a == 172 and 16 <= b <= 31) or
+        (a == 192 and b == 168)
+    )
+result = { "private": [], "public": [] }
+for ip in ips:
+    if is_private(ip):
+        result["private"].append(ip)
+    else:
+        result["public"].append(ip)
+print(result)
+program 24
+code:
+import re
+from collections import defaultdict
+text = "Laptop: ****, Phone: ***, Laptop: *****, Tablet: **"
+pattern = r"(\w+):\s*(\*+)"
+matches = re.findall(pattern, text)
+ratings = defaultdict(list)
+for product, stars in matches:
+    ratings[product].append(len(stars)) 
+result = {product: sum(vals)/len(vals) for product, vals in ratings.items()}
+print(result)
