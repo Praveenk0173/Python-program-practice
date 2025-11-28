@@ -1,0 +1,35 @@
+program 29
+code:
+text = input("Enter a string: ")
+ascii_dict = {char: ord(char) for char in text}
+print(ascii_dict)
+program 30
+code:
+import re
+text = input("Enter the text: ")
+pattern = r'\b\d{4}-\d{2}-\d{2}\b|\b\d{2}/\d{2}/\d{4}\b|\b\d{2}-[A-Za-z]{3}-\d{4}\b'
+dates = re.findall(pattern, text)
+date_dict = {i: date for i, date in enumerate(dates)}
+print(date_dict)
+program 31
+code:
+import re
+text = input("Enter the text: ")
+emails = re.findall(r'[A-Za-z0-9._%+-]+@([A-Za-z0-9.-]+\.[A-Za-z]{2,})', text)
+domain_count = {}
+for domain in emails:
+    domain_count[domain] = domain_count.get(domain, 0) + 1
+print(domain_count)
+program 32
+code:
+import re
+log = input("Enter the log: ")
+pattern = r"Student:\s*(\w+)\s*Subject:\s*(\w+)\s*Score:\s*(\d+)"
+matches = re.findall(pattern, log)
+students = {}
+for name, subject, score in matches:
+    score = int(score)
+    if name not in students:
+        students[name] = {}
+    students[name][subject] = score
+print(students)
