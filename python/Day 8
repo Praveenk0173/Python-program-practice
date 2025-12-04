@@ -1,0 +1,61 @@
+problem 32
+code:
+def gradingStudents(grades):
+    result = []
+    for g in grades:
+        if g < 38:
+            result.append(g)
+        else:
+            next_multiple = ((g // 5) + 1) * 5
+            if next_multiple - g < 3:
+                result.append(next_multiple)
+            else:
+                result.append(g)
+    return result
+if __name__ == '__main__':
+    n = int(input().strip())
+    grades = [int(input().strip()) for _ in range(n)]
+    result = gradingStudents(grades)
+    for r in result:
+        print(r) 
+problem 33
+code:
+import math
+def getTotalX(a, b):
+    lcm_a = a[0]
+    for num in a[1:]:
+        lcm_a = lcm_a * num // math.gcd(lcm_a, num)
+    gcd_b = b[0]
+    for num in b[1:]:
+        gcd_b = math.gcd(gcd_b, num)
+    count = 0
+    multiple = lcm_a
+    while multiple <= gcd_b:
+        if gcd_b % multiple == 0:
+            count += 1
+        multiple += lcm_a
+    return count
+if __name__ == '__main__':
+    n, m = map(int, input().split())
+    a = list(map(int, input().split()))
+    b = list(map(int, input().split()))
+    result = getTotalX(a, b)
+    print(result)
+problem 34
+code:
+def breakingRecords(scores):
+    high = low = scores[0]
+    high_breaks = low_breaks = 0
+    for s in scores[1:]:
+        if s > high:
+            high = s
+            high_breaks += 1
+        elif s < low:
+            low = s
+            low_breaks += 1
+    return [high_breaks, low_breaks]
+if __name__ == '__main__':
+    n = int(input().strip())
+    scores = list(map(int, input().rstrip().split()))
+    result = breakingRecords(scores)
+    print(*result)
