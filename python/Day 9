@@ -1,0 +1,90 @@
+problem 35
+code:
+def birthday(s, d, m):
+    n = len(s)
+    if m > n:
+        return 0
+    current_sum = sum(s[0:m])
+    count = 1 if current_sum == d else 0
+    for i in range(m, n):
+        current_sum += s[i] - s[i - m]  
+        if current_sum == d:
+            count += 1
+    return count
+if __name__ == '__main__':
+    n = int(input().strip())                    
+    s = list(map(int, input().rstrip().split()))
+    d, m = map(int, input().rstrip().split())
+    result = birthday(s, d, m)
+    print(result)
+problem 36
+code:
+def divisibleSumPairs(n, k, arr):
+    freq = [0] * k
+    for x in arr:
+        freq[x % k] += 1
+    count = 0
+    count += freq[0] * (freq[0] - 1) // 2
+    for r in range(1, (k // 2) + 1):
+        if r != k - r:  
+            count += freq[r] * freq[k - r]
+    if k % 2 == 0:
+        r = k // 2
+        count += freq[r] * (freq[r] - 1) // 2
+    return count
+if __name__ == '__main__':
+    n, k = map(int, input().split())
+    arr = list(map(int, input().split()))
+    result = divisibleSumPairs(n, k, arr)
+    print(result)
+problem 37
+code:
+import re
+def extract_chat_messages(chat):
+    messages = re.findall(r"\[\d{2}:\d{2}\]\s*(\w+):\s*(.*?)\s*(?=\[\d{2}:\d{2}\]|$)", chat)
+    chat_dict = {}
+    for user, msg in messages:
+        if user not in chat_dict:
+            chat_dict[user] = []
+        chat_dict[user].append(msg)
+    return chat_dict
+chat = """ [10:01] Alice: Hi Bob! [10:02] Bob: Hey Alice! [10:03] Alice: How are you? """
+print(extract_chat_messages(chat))
+problem 38
+code:
+def celsius_to_fahrenheit(temps):
+    result = {}
+    for c in temps:
+        f = (c * 9/5) + 32    
+        result[c] = round(f, 1)  
+    return result
+temps = [0, 20, 37, 100]
+print(celsius_to_fahrenheit(temps))
+problem 39
+code:
+import re
+text = "Hey :) How are you :( I missed you <3"
+pattern = r'(:\)|:\(|<3)'
+emojis = re.findall(pattern, text)
+emoji_meanings = {
+    ":)": "smile",
+    ":(": "sad",
+    "<3": "love"
+}
+emoji_dict = {e: emoji_meanings[e] for e in emojis}
+print(emoji_dict)
+problem 40
+code:
+import re
+text = "Python is great. I love Python programming. Great tools exist for Python."
+sentences = re.split(r'\.\s*', text.strip())
+sentences = [s for s in sentences if s] 
+reverse_index = {}
+for idx, sentence in enumerate(sentences, start=1):
+    words = re.findall(r'\b\w+\b', sentence.lower())  
+    for word in words:
+        if word not in reverse_index:
+            reverse_index[word] = []
+        if idx not in reverse_index[word]:
+            reverse_index[word].append(idx)
+print(reverse_index)
